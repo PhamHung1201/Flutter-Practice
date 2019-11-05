@@ -9,4 +9,3 @@ class ArtistBloc {
     return Observable.fromFuture(artistProvider.fetchArtists());
   }
 }
-final bloc = ArtistBloc();

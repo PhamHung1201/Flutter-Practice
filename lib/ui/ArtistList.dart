@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/Provider.dart';
 import 'package:flutter_practice/models/ArtistResponse.dart';
-import '../blocs/ArtistBloc.dart';
 
 class ArtistList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of(context);
     bloc.fetchArtist();
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +32,10 @@ class ArtistList extends StatelessWidget {
       itemCount: snapshot.data.entryResponse.artists.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (BuildContext context, int index) {
-        return Text(snapshot.data.entryResponse.artists[index].name);
+        return Text(
+          snapshot.data.entryResponse.artists[index].name,
+          textAlign: TextAlign.center,
+        );
       },
     );
     
