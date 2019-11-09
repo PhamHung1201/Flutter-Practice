@@ -4,14 +4,12 @@ import 'package:flutter_practice/Provider.dart';
 import 'package:flutter_practice/models/MovieResponse.dart';
 
 class ArtistList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-//    bloc.fetchArtist();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Artists'),
+        title: Text('Movies'),
       ),
       body: StreamBuilder(
         stream: bloc.fetchPopularMovie(),
@@ -28,23 +26,39 @@ class ArtistList extends StatelessWidget {
   }
 
   Widget buildList(AsyncSnapshot<PopularMoviesResponse> snapshot) {
-    return GridView.builder(
+    return ListView.builder(
       itemCount: snapshot.data.movies.length,
-      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (BuildContext context, int index) {
-        return Column(
-          children: <Widget>[
-            Image.network(
-              snapshot.data.movies[index].posterUrl,
-            )
-//            Text(
-//              snapshot.data.movies[index].title,
-//              style: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic, color: Colors.deepOrange),
-//            ),
-          ],
-        );
+        return Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0)),
+                  child: Image.network(
+                    snapshot.data.movies[index].posterUrl,
+                    width: 150.0,
+                    height: 200.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Expanded(
+                  child: Text(snapshot.data.movies[index].title,
+                      maxLines: 2,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black)),
+                )
+              ],
+            ));
       },
     );
-
   }
 }
