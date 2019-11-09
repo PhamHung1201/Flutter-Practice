@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Provider.dart';
-import 'package:flutter_practice/models/ArtistResponse.dart';
+import 'package:flutter_practice/models/MovieResponse.dart';
 
 class ArtistList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-    bloc.fetchArtist();
+//    bloc.fetchArtist();
     return Scaffold(
       appBar: AppBar(
         title: Text('Artists'),
       ),
       body: StreamBuilder(
-        stream: bloc.fetchArtist(),
+        stream: bloc.fetchPopularMovie(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return buildList(snapshot);
@@ -27,17 +27,24 @@ class ArtistList extends StatelessWidget {
     );
   }
 
-  Widget buildList(AsyncSnapshot<ArtistResponse> snapshot) {
+  Widget buildList(AsyncSnapshot<PopularMoviesResponse> snapshot) {
     return GridView.builder(
-      itemCount: snapshot.data.entryResponse.artists.length,
+      itemCount: snapshot.data.movies.length,
       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (BuildContext context, int index) {
-        return Text(
-          snapshot.data.entryResponse.artists[index].name,
-          textAlign: TextAlign.center,
+        return Column(
+          children: <Widget>[
+            Image.network(
+              snapshot.data.movies[index].posterUrl,
+            )
+//            Text(
+//              snapshot.data.movies[index].title,
+//              style: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic, color: Colors.deepOrange),
+//            ),
+          ],
         );
       },
     );
-    
+
   }
 }

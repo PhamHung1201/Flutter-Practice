@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Provider.dart';
-import 'package:flutter_practice/ui/ArtistList.dart';
+import 'package:flutter_practice/ui/MovieList.dart';
 
 void main() => runApp(App());
 
