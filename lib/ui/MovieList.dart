@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Provider.dart';
-import 'package:flutter_practice/models/MovieResponse.dart';
+import 'package:flutter_practice/models/view/MovieItemView.dart';
 
 class ArtistList extends StatelessWidget {
   @override
@@ -25,9 +25,9 @@ class ArtistList extends StatelessWidget {
     );
   }
 
-  Widget buildList(AsyncSnapshot<PopularMoviesResponse> snapshot) {
+  Widget buildList(AsyncSnapshot<List<MovieItemView>> snapshot) {
     return ListView.builder(
-      itemCount: snapshot.data.movies.length,
+      itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
         return Card(
             shape: RoundedRectangleBorder(
@@ -40,22 +40,39 @@ class ArtistList extends StatelessWidget {
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0)),
                   child: Image.network(
-                    snapshot.data.movies[index].posterUrl,
+                    snapshot.data[index].posterUrl,
                     width: 150.0,
                     height: 200.0,
                     fit: BoxFit.fill,
                   ),
                 ),
+                Padding(padding: EdgeInsets.only(left: 8.0)),
                 Expanded(
-                  child: Text(snapshot.data.movies[index].title,
-                      maxLines: 2,
-                      textAlign: TextAlign.justify,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.black)),
-                )
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.only(top: 8.0)),
+                      Text(snapshot.data[index].title,
+                          maxLines: 2,
+                          textAlign: TextAlign.justify,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black)),
+                      Padding(padding: EdgeInsets.only(bottom: 8.0)),
+                      Text(snapshot.data[index].overview,
+                          maxLines: 5,
+                          textAlign: TextAlign.justify,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.black54)),
+                    ],
+                  )
+                ),
+                Padding(padding: EdgeInsets.only(right: 8.0)),
               ],
             ));
       },
